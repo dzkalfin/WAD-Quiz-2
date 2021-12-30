@@ -76,7 +76,9 @@
                     <label for="formFile" class="form-label">Thumbnail Photo</label>
                     <input class="form-control" type="file" id="formFile">
                 </div>
-                <div class="col-md-1"><p class="text-center mt-4">Or</p></div>
+                <div class="col-md-1">
+                    <p class="text-center mt-4">Or</p>
+                </div>
                 <div class="col mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Embed video</label>
                     <input type="email" class="form-control" id="exampleFormControlInput1">
@@ -84,9 +86,9 @@
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end my-4">
-  <button class="btn btn-secondary me-md-2" type="button"> Cancel </button>
-  <button class="btn btn-primary" type="submit"> Post </button>
-</div>
+                <button class="btn btn-secondary me-md-2" type="button"> Cancel </button>
+                <button class="btn btn-primary" type="submit"> Post </button>
+            </div>
         </form>
     </div>
 </body>
