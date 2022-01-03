@@ -1,3 +1,15 @@
+<?php  
+
+include 'config.php';
+
+if (isset($_POST['post'])) {
+    
+    post($_POST);
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,10 +40,10 @@
             <div class="collapse navbar-collapse mx-5" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-lg-0">
                     <li class="nav-item mx-4">
-                        <a class="nav-link " href="#"><i class="bi bi-newspaper"></i> Post News</a>
+                        <a class="nav-link " href="#"><i class="bi bi-newspaper"></i> News</a>
                     </li>
                     <li class="nav-item mx-4">
-                        <a class="nav-link" href="#"><i class="bi bi-trophy"></i> Create Tournament</a>
+                        <a class="nav-link" href="#"><i class="bi bi-trophy"></i> Tournament</a>
                     </li>
                     <li class="nav-item dropdown mx-4">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,8 +60,55 @@
                     </li>
                 </ul>
 
-                <p class="text-center" style="font-family: 'Roboto', sans-serif; font-size: 20px; color: #74b9ff;">Admin</p>
+                <?php if (isset($_SESSION['id'])): ?>
+                    <ul class="navbar-nav ms-auto">
+                        <p class="nav-link">Hi,<?=$_SESSION['nama']?></p>
+                        <li class="nav-item"><a href="post.php" class="nav-link">My Post</a></li>
+                        <li class="nav-item"><a href="logout.php" class="btn btn-danger">Log out</a></li>
+                    </ul>
+                <?php else: ?>
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Login
+                    </button>
+                <?php endif ?>
 
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="" method="POST">
+                                <div class="modal-body">
+
+                                    <!-- Login -->
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Username</label>
+                                        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <div id="emailHelp" class="form-text">Make it simple dummy</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                                        <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                            <label for="remember" class="form-label">Remember Me</label>
+                                        </div>
+                                    </div>
+                                    <p>Become part of Eseeker <a href="Eseeker_registrasi.php" class="link-primary">here</a> !</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" name="login" class="btn btn-primary">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -61,14 +120,14 @@
 
             Post News</p>
 
-        <form>
+        <form action="" method="POST">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Title</label>
-                <input type="Text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="text" name="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" name="deskripsi" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
 
             <div class="row">
@@ -81,13 +140,13 @@
                 </div>
                 <div class="col mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Embed video</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1">
+                    <input type="text" class="form-control" name="video" id="exampleFormControlInput1">
                 </div>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end my-4">
                 <button class="btn btn-secondary me-md-2" type="button"> Cancel </button>
-                <button class="btn btn-primary" type="submit"> Post </button>
+                <button class="btn btn-primary" name="post" type="submit"> Post </button>
             </div>
         </form>
     </div>

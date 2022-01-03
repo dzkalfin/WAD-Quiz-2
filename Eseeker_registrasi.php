@@ -1,3 +1,15 @@
+<?php  
+
+include 'config.php';
+
+if (isset($_POST['register'])) {
+    
+    register($_POST);
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +33,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid mx-5 ">
-            <a class="navbar-brand" href="#">Eseeker</a>
+            <a class="navbar-brand" href="Eseeker_index.php">Eseeker</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -64,7 +76,7 @@
                                 <div class="modal-body">
 
                                     <!-- Login -->
-                                    <form>
+                                    <form action="" method="POST">
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Username</label>
                                             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -74,7 +86,7 @@
                                             <label for="exampleInputPassword1" class="form-label">Password</label>
                                             <input type="password" class="form-control" id="exampleInputPassword1">
                                         </div>
-                                        <p>Become part of Eseeker <a href="#" class="link-primary">here</a> !</p>
+                                        <p>Become part of Eseeker <a href="Eseeker_registrasi.php" class="link-primary">here</a> !</p>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -98,44 +110,44 @@
 
             Register</p>
 
-        <form>
+        <form action="" method="POST">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Full Name</label>
-                <input type="Text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="text" class="form-control" name="nama" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">No Handphone</label>
-                <input type="Number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="number" class="form-control" name="phone" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Birth Date</label>
-                <input type="Date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="date" class="form-control" name="tanggal" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3 my-4">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                    <option selected>User as</option>
+                <select class="form-select form-select-lg mb-3" name="level" aria-label=".form-select-lg example">
+                    <option selected disabled hidden>User as</option>
                     <option value="1">Players</option>
                     <option value="2">Admin</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Username</label>
-                <input type="Text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
+                <input type="password" class="form-control" name="password" id="exampleInputPassword1">
             </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">i agree to the terments and bla bla bla</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" name="register" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </body>

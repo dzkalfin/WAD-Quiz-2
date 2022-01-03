@@ -1,3 +1,8 @@
+<?php  
+
+include 'config.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +26,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid mx-5 ">
-            <a class="navbar-brand" href="#">Eseeker</a>
+            <a class="navbar-brand" href="Eseeker_index.php">Eseeker</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -48,45 +53,55 @@
                     </li>
                 </ul>
 
-                <form class="d-flex gap-2 col-1">
+                <?php if (isset($_SESSION['id'])): ?>
+                    <ul class="navbar-nav ms-auto">
+                        <p class="nav-link">Hi,<?=$_SESSION['tipe']?> User <?=$_SESSION['nama']?></p>
+                        <li class="nav-item"><a href="post.php" class="nav-link">My Post</a></li>
+                        <li class="nav-item"><a href="logout.php" class="btn btn-danger">Log out</a></li>
+                    </ul>
+                <?php else: ?>
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Login
                     </button>
+                <?php endif ?>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="" method="POST">
                                 <div class="modal-body">
 
                                     <!-- Login -->
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Username</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                            <div id="emailHelp" class="form-text">Make it simple dummy</div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Username</label>
+                                        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <div id="emailHelp" class="form-text">Make it simple dummy</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                                        <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                            <label for="remember" class="form-label">Remember Me</label>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1">
-                                        </div>
-                                        <p>Become part of Eseeker <a href="#" class="link-primary">here</a> !</p>
-                                    </form>
+                                    </div>
+                                    <p>Become part of Eseeker <a href="Eseeker_registrasi.php" class="link-primary">here</a> !</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Login</button>
+                                    <button type="submit" name="login" class="btn btn-primary">Login</button>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
-
-                </form>
-
+                </div>
             </div>
         </div>
     </nav>
@@ -98,7 +113,7 @@
 
             Subscription</p>
 
-        <form>
+        <form action="Eseeker_index.php">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Card Number</label>
                 <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -106,7 +121,7 @@
             <div class="row">
             <div class="col mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Expire Date</label>
-                    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyyy">
+                    <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="dd/mm/yyyy">
                 </div>
                 <div class="col mb-3">
                     <label for="exampleFormControlInput1" class="form-label">CVC</label>

@@ -1,3 +1,19 @@
+<?php  
+
+include 'config.php';
+
+if (isset($_POST['login'])) {
+
+  login($_POST);
+
+}
+
+$sql = "SELECT * FROM post";
+$select = mysqli_query($conn,$sql);
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,44 +65,60 @@
           </li>
         </ul>
 
-        <form class="d-flex gap-2 col-1">
+        <?php if (isset($_SESSION['id'])): ?>
+          <ul class="navbar-nav ms-auto">
+            <p class="nav-link">Hi,<?=$_SESSION['tipe']?> User <?=$_SESSION['nama']?></p>
+            <li class="nav-item"><a href="post.php" class="nav-link">My Post</a></li>
+            <li class="nav-item"><a href="logout.php" class="btn btn-danger">Log out</a></li>
+          </ul>
+        <?php else: ?>
           <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Login
           </button>
+        <?php endif ?>
 
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="" method="POST">
                 <div class="modal-body">
 
                   <!-- Login -->
-                  <form>
-                    <div class="mb-3">
-                      <label for="exampleInputEmail1" class="form-label">Username</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                      <div id="emailHelp" class="form-text">Make it simple dummy</div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" <?php if (isset($_COOKIE['username'])): ?>
+                    value="<?=$_COOKIE['username']?>"
+                    <?php endif ?>>
+                    <div id="emailHelp" class="form-text">Make it simple dummy</div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" <?php if (isset($_COOKIE['password'])): ?>
+                    value="<?=$_COOKIE['password']?>"
+                    <?php endif ?>>
+                    <div class="form-check">
+                      <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                      <label for="remember" class="form-label">Remember Me</label>
                     </div>
-                    <div class="mb-3">
-                      <label for="exampleInputPassword1" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <p>Become part of Eseeker <a href="#" class="link-primary">here</a> !</p>
-                  </form>
+                  </div>
+                  <p>Become part of Eseeker <a href="Eseeker_registrasi.php" class="link-primary">here</a> !</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Login</button>
+                  <button type="submit" name="login" class="btn btn-primary">Login</button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
+        </div>
 
-        </form>
 
       </div>
     </div>
@@ -96,65 +128,64 @@
 
   <!-- Updates -->
   <p style="font-family: 'Roboto', sans-serif; font-size: 70px; margin-left: 4.5cm; margin-top: 2cm; color: #74b9ff;">
-    Updates</p>
+  Updates</p>
   <div class="shadow p-3 mb-5 bg-body rounded mx-5 my-5">
-    <div class="row justify-content-around mb-5">
-      <div class="col-2">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/LJ0w_9-qXpM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <div class="col-sm-5" style="padding-right: 4cm;">
-        <p class="lh-base" style="font-family: 'Roboto', sans-serif; color: #0984e3; padding-left: 2cm; font-size: 20px;"> Di
-          Pada Update Kali ini Riot memberika kejutan untuk komunitas valorant, yaitu Skin Champions. Skin ini cukup menarik dengan Glow efek pada senjata, lalu
-          Finisher yang menampilkan karakter brimstone dengan background Tournament Valorant Champions. Sayangnya skin ini dapat efek Glownya jika <i>Top Frag</i> di match
-          tersebut. Lalu dengan knife karambit nya yang klasik, sama seperti Vandal Champions nya dapat glow jika melakukan <i>Top Frag</i> di match tersebut. </p>
-        <p class="lh-base" style="font-family: 'Roboto', sans-serif; color: #0984e3; padding-left: 2cm; font-size: 20px;">
-          Skin Bundle Champions 2021 Collection dapat dibeli dengan seharga 6263 Valorant Points atau Setara dengan Harga Rp 600.000 yang bisa dibilang cukup worth it
-          untuk skin seperti Champions 2021.<a href="https://www.codashop.com/id-id/valorant" class="link-secondary">Top Up VP Murah</a></p>
-        <br>
-      </div>
-    </div>
-  </div>
+    <?php foreach ($select as $key): ?>
+      <div class="row justify-content-around mb-5">
+        <div class="col-md-6">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/<?=substr($key['video'], 17);?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="col-md-6" style="padding-right: 4cm;">
+          <h5><?=$key['title']?></h5>
+          <p class="lh-base" style="font-family: 'Roboto', sans-serif; color: #0984e3; font-size: 20px;"> 
+          <?=$key['deskripsi']?>
+           </p>
 
-  <!-- News -->
-  <div class="jumbotron my-3">
-    <p class="text-end" style="font-family: 'Roboto', sans-serif; font-size: 70px; margin-right: 4.5cm; color: #74b9ff;">
+          </div>
+        </div>
+      <?php endforeach ?>
+    </div>
+
+    <!-- News -->
+    <div class="jumbotron my-3">
+      <p class="text-end" style="font-family: 'Roboto', sans-serif; font-size: 70px; margin-right: 4.5cm; color: #74b9ff;">
       News</p>
-    <div class="row justify-content-around">
-      <div class="col-sm-5">
-        <p class="lh-base" style="font-family: 'Roboto', sans-serif; color: #0984e3; padding-left: 2cm; font-size: 20px;">
-          Tournamen Dota 2 The international merupakan tournament terbesar yang pernah diselenggarakan di
-          dunia
-          esport.
+      <div class="row justify-content-around">
+        <div class="col-sm-5">
+          <p class="lh-base" style="font-family: 'Roboto', sans-serif; color: #0984e3; padding-left: 2cm; font-size: 20px;">
+            Tournamen Dota 2 The international merupakan tournament terbesar yang pernah diselenggarakan di
+            dunia
+            esport.
           Di tahun 2019 ini The international 2019 akan diselenggarakan di United States, The Seattle</p>
-        <p class="lh-base" style="font-family: 'Roboto', sans-serif; color: #0984e3; padding-left: 2cm; font-size: 20px;">
-          Prize pool
-          TI 10 tersebut berhasil mencapai angka tersebut, hanya 15 menit sebelum berakhirnya TI10 Battle
-          Pass dan
-          crowdfunding Dota 2.
-          Dengan prize pool tersebut, DOTA 2 resmi jadi game atau esport dengan hadiah turnamen paling
-          besar di
+          <p class="lh-base" style="font-family: 'Roboto', sans-serif; color: #0984e3; padding-left: 2cm; font-size: 20px;">
+            Prize pool
+            TI 10 tersebut berhasil mencapai angka tersebut, hanya 15 menit sebelum berakhirnya TI10 Battle
+            Pass dan
+            crowdfunding Dota 2.
+            Dengan prize pool tersebut, DOTA 2 resmi jadi game atau esport dengan hadiah turnamen paling
+            besar di
           planet bumi.</p>
 
-      </div>
-      <div class="col-sm-5">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2042777.5472358048!2d-118.35953783326362!3d47.1257291505673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5490151f4ed5b7f9%3A0xdb2ba8689ed0920d!2sSpace%20Needle!5e0!3m2!1sen!2sid!4v1635356710123!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div class="col-sm-5">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2042777.5472358048!2d-118.35953783326362!3d47.1257291505673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5490151f4ed5b7f9%3A0xdb2ba8689ed0920d!2sSpace%20Needle!5e0!3m2!1sen!2sid!4v1635356710123!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
       </div>
     </div>
-  </div>
   </section>
 
   <!-- bet -->
   <p style="font-family: 'Roboto', sans-serif; font-size: 50px; color: #74b9ff; text-align: center;">
-    Place Bet !</p>
+  Place Bet !</p>
   <p class="lh-base my-2" style="font-family: 'Roboto', sans-serif; color: #0984e3; text-align: center; font-size: 20px;">
-    Predict the winner, and win the prize !</p>
+  Predict the winner, and win the prize !</p>
 
   <div class="shadow p-3 mb-5 bg-body rounded mx-5 my-5">
     <div class="container my-5">
       <div class="row align-items-center">
         <div class="col">
           <p class="text-start text-primary" style="font-family: 'Roboto', sans-serif; text-align: center; font-size: 20px;">
-            Navi ( 35% )</p>
+          Navi ( 35% )</p>
         </div>
         <div class="col">
           <div class="d-grid gap-2 col-6 mx-auto mr-5">
@@ -163,7 +194,7 @@
         </div>
         <div class="col">
           <p class="text-end text-danger" style="font-family: 'Roboto', sans-serif; text-align: center; font-size: 20px;">
-            Gambit ( 65% )</p>
+          Gambit ( 65% )</p>
         </div>
       </div>
     </div>
@@ -176,7 +207,7 @@
       <div class="row align-items-center">
         <div class="col">
           <p class="text-start text-primary" style="font-family: 'Roboto', sans-serif; text-align: center; font-size: 20px;">
-            Sentinel ( 72% )</p>
+          Sentinel ( 72% )</p>
         </div>
         <div class="col">
           <div class="d-grid gap-2 col-6 mx-auto mr-5">
@@ -185,7 +216,7 @@
         </div>
         <div class="col">
           <p class="text-end text-danger" style="font-family: 'Roboto', sans-serif; text-align: center; font-size: 20px;">
-            F4Q ( 28% )</p>
+          F4Q ( 28% )</p>
         </div>
       </div>
     </div>
@@ -200,7 +231,7 @@
   <div class="jumbotron">
     <div class="container">
       <p style="font-family: 'Roboto', sans-serif; font-size: 50px; margin: 2cm; color: #74b9ff; text-align: center;">
-        More Feature !</p>
+      More Feature !</p>
       <div class="mx-5 my-3 row row-cols-1 row-cols-md-3 g-2 justify-content-center">
 
         <!-- Free -->
@@ -220,7 +251,7 @@
                   <li class="list-group-item" style="color: #2ecc71;"><b>Bet </b></li>
                 </ul>
                 <div class="card-footer text-center">
-                  <a href="booking.php?BuildingType=Nusantara+Hall" class="btn btn-primary"><i class="bi bi-cart4"></i> Get Now !
+                  <a href="Eseeker_premium.php" class="btn btn-primary"><i class="bi bi-cart4"></i> Get Now !
                   </a>
                 </div>
               </div>
@@ -245,7 +276,7 @@
                   <li class="list-group-item" style="color: #2ecc71;"><b>Bet</b></li>
                 </ul>
                 <div class="card-footer text-center">
-                  <a href="booking.php?BuildingType=Garuda+Hall" class="btn btn-primary"><i class="bi bi-cart4"></i> Get Now !</a>
+                  <a href="Eseeker_premium.php" class="btn btn-primary"><i class="bi bi-cart4"></i> Get Now !</a>
                 </div>
               </div>
             </div>
